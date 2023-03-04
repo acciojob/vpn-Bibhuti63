@@ -38,7 +38,7 @@ public class ConnectionServiceImpl implements ConnectionService {
              // throw "Unable to connect" exception.
             //Else, establish the connection where the maskedIp is "updatedCountryCode.serviceProviderId.userId" and return the updated user.
                 // If multiple service providers allow you to connect to the country, use the service provider having smallest id.
-            if(user.getServiceProviderList()==null){
+            if(user.getServiceProviderList().size()==0){
                 throw new Exception("Unable to connect");
             }
 
@@ -116,10 +116,10 @@ public class ConnectionServiceImpl implements ConnectionService {
           // Return the sender as it is.
         //If communication can not be established due to any reason, throw "Cannot establish communication" exception
 
-        User sender=userRepository2.findById(senderId).get(); //user
-        User receiver=userRepository2.findById(receiverId).get(); //user1
+        User sender=userRepository2.findById(senderId).get();
+        User receiver=userRepository2.findById(receiverId).get();
 
-        if(receiver.getMaskedIp()!=null){// receiver.getConnected()==true
+        if(receiver.getMaskedIp()!=null){
             //receiver is connected to vpn , so its current country is the one he is connected to
             String mask=receiver.getMaskedIp();//maskedIp=(updatedCountryCode.serviceProviderId.userId)
             String cc=mask.substring(0,3);//to get the current country code
