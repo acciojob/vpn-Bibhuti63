@@ -27,7 +27,7 @@ public class ConnectionServiceImpl implements ConnectionService {
         //3. Else, the user should be subscribed under a serviceProvider having option to connect to the given country.
         User user=userRepository2.findById(userId).get();
 
-        if(user.getConnected()){ //user.getMaskedIp!=null
+        if(user.getMaskedIp()!=null){ //user.getMaskedIp!=null
             throw new Exception("Already connected");
         }
         else if (countryName.equalsIgnoreCase(user.getOriginalCountry().getCountryName().toString())){
