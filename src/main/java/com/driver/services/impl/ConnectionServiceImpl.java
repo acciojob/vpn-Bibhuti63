@@ -47,7 +47,7 @@ public class ConnectionServiceImpl implements ConnectionService {
             ServiceProvider serviceProvider=null;
             Country country=null;
 
-            boolean flag=false;
+            Boolean flag=false;
 
             //traversing each service providers
             for(ServiceProvider serviceProvider1: serviceProviderList){
