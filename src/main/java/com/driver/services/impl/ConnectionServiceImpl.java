@@ -150,19 +150,12 @@ public class ConnectionServiceImpl implements ConnectionService {
 
                 //using DRY principle//calling existing function i.e connect
 
-//                User user2;
-//                try{
-//                     user2=connect(senderId,countryName);
-//                }
-//                catch (Exception e){
-//                    throw new Exception("Unable to connect");
-//                }
                 User user2=connect(senderId,countryName);
 
 
                 if(!user2.getConnected()){
-//                    throw new Exception("Cannot establish communication");
-                    throw new Exception("Unable to connect");
+                    throw new Exception("Cannot establish communication");
+//                    throw new Exception("Unable to connect");
                 }
                 else return user2;
             }
@@ -173,19 +166,12 @@ public class ConnectionServiceImpl implements ConnectionService {
                 return sender;
             }
             String countryName=receiver.getOriginalCountry().getCountryName().toString();
-//            User user2;
-//            try{
-//                user2=connect(senderId,countryName);
-//            }
-//            catch (Exception e){
-//                throw new Exception("Unable to connect");
-//            }
 
             User user2=connect(senderId,countryName);
 
             if(!user2.getConnected()){
-//                throw new Exception("Cannot establish communication");
-                throw new Exception("Unable to connect");
+                throw new Exception("Cannot establish communication");
+//                throw new Exception("Unable to connect");
             }
             else return user2;
         }
