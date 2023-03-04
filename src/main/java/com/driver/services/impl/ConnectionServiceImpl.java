@@ -86,10 +86,6 @@ public class ConnectionServiceImpl implements ConnectionService {
 
             userRepository2.save(user);
             serviceProviderRepository2.save(serviceProvider);
-
-//            return user;
-
-
         }
         return user;
 
@@ -153,11 +149,17 @@ public class ConnectionServiceImpl implements ConnectionService {
                 }
 
                 //using DRY principle//calling existing function i.e connect
-                User user2=connect(senderId,countryName);
+                User user2;
+                try{
+                     user2=connect(senderId,countryName);
+                }
+                catch (Exception e){
+                    throw new Exception("Unable to connect");
+                }
 
                 if(!user2.getConnected()){
-//                    throw new Exception("Cannot establish communication");
-                    throw new Exception("Unable to connect");
+                    throw new Exception("Cannot establish communication");
+//                    throw new Exception("Unable to connect");
                 }
                 else return user2;
             }
@@ -168,10 +170,17 @@ public class ConnectionServiceImpl implements ConnectionService {
                 return sender;
             }
             String countryName=receiver.getOriginalCountry().getCountryName().toString();
-            User user2=connect(senderId,countryName);
-            if(!user2.getConnected()){
-//                throw new Exception("Cannot establish communication");
+            User user2;
+            try{
+                user2=connect(senderId,countryName);
+            }
+            catch (Exception e){
                 throw new Exception("Unable to connect");
+            }
+
+            if(!user2.getConnected()){
+                throw new Exception("Cannot establish communication");
+//                throw new Exception("Unable to connect");
             }
             else return user2;
         }
