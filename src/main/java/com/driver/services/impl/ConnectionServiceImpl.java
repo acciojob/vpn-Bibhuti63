@@ -30,7 +30,7 @@ public class ConnectionServiceImpl implements ConnectionService {
         if(user.getConnected()){ //user.getMaskedIp!=null
             throw new Exception("Already connected");
         }
-        else if (countryName.equalsIgnoreCase(user.getCountry().getCountryName().toString())){
+        else if (countryName.equalsIgnoreCase(user.getOriginalCountry().getCountryName().toString())){
             return user;
         }
         else {
@@ -77,7 +77,7 @@ public class ConnectionServiceImpl implements ConnectionService {
             String countryCode=country.getCode();
             String mask=countryCode+"."+serviceProvider.getId()+"."+userId;
 
-            user.setMaskedIP(mask);
+            user.setMaskedIp(mask);
             user.setConnected(true);
 
             user.getConnectionList().add(connection);
@@ -102,7 +102,7 @@ public class ConnectionServiceImpl implements ConnectionService {
         if(!user.getConnected()){
             throw new Exception("Already disconnected");
         }
-        user.setMaskedIP(null);
+        user.setMaskedIp(null);
         user.setConnected(false);
         userRepository2.save(user);
 
@@ -123,12 +123,12 @@ public class ConnectionServiceImpl implements ConnectionService {
         User sender=userRepository2.findById(senderId).get(); //user
         User receiver=userRepository2.findById(receiverId).get(); //user1
 
-        if(receiver.getMaskedIP()!=null){// receiver.getConnected()==true
+        if(receiver.getMaskedIp()!=null){// receiver.getConnected()==true
             //receiver is connected to vpn , so its current country is the one he is connected to
-            String mask=receiver.getMaskedIP();//maskedIp=(updatedCountryCode.serviceProviderId.userId)
+            String mask=receiver.getMaskedIp();//maskedIp=(updatedCountryCode.serviceProviderId.userId)
             String cc=mask.substring(0,3);//to get the current country code
 
-            if(cc.equals(sender.getCountry().getCode())){
+            if(cc.equals(sender.getOriginalCountry().getCode())){
                 //both are in same country return sender as it is
                 return sender;
             }
@@ -163,10 +163,10 @@ public class ConnectionServiceImpl implements ConnectionService {
         }
         else{
             //receiver is not connected to vpn so original country is current country
-            if(receiver.getCountry().equals(sender.getCountry())){
+            if(receiver.getOriginalCountry().equals(sender.getOriginalCountry())){
                 return sender;
             }
-            String countryName=receiver.getCountry().getCountryName().toString();
+            String countryName=receiver.getOriginalCountry().getCountryName().toString();
             User user2=connect(senderId,countryName);
             if(!user2.getConnected()){
                 throw new Exception("Cannot establish communication");
