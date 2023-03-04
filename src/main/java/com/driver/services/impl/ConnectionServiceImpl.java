@@ -38,7 +38,7 @@ public class ConnectionServiceImpl implements ConnectionService {
              // throw "Unable to connect" exception.
             //Else, establish the connection where the maskedIp is "updatedCountryCode.serviceProviderId.userId" and return the updated user.
                 // If multiple service providers allow you to connect to the country, use the service provider having smallest id.
-            if(user.getServiceProviderList().size()==0){ //==null
+            if(user.getServiceProviderList()==null){
                 throw new Exception("Unable to connect");
             }
 
